@@ -1,7 +1,9 @@
-from app import Window, Point, Line
+from app import Window, Point, Line, BGCOLOR
+
+CELL_WALL_COLOR = "black"
 
 class Cell:
-    def __init__(self, window=None, x1=2, y1=2, x2=11, y2=11, left=True, right=True, top=True, bottom=True):
+    def __init__(self, window=None, x1=2, y1=2, x2=11, y2=11, left=True, right=True, top=True, bottom=True, visited=False):
         self.has_left_wall = left
         self.has_right_wall = right
         self.has_top_wall = top
@@ -10,23 +12,38 @@ class Cell:
         self._y1 = y1
         self._x2 = x2
         self._y2 = y2
+        self.visited = visited
         self._win = window
     
-    def draw(self):
+    def draw(self, message=None):
         if self._win is None:
             return
+        top_wall = Line(Point(self._x1, self._y1), Point(self._x2, self._y1))
         if self.has_top_wall:
-            top_wall = Line(Point(self._x1, self._y1), Point(self._x2, self._y1))
-            self._win.draw_line(top_wall)
+            self._win.draw_line(top_wall,CELL_WALL_COLOR)
+        else:
+            self._win.draw_line(top_wall, BGCOLOR)
+
+        right_wall = Line(Point(self._x2,self._y1), Point(self._x2, self._y2))
         if self.has_right_wall:
-            right_wall = Line(Point(self._x2,self._y1), Point(self._x2, self._y2))
-            self._win.draw_line(right_wall)
+            self._win.draw_line(right_wall,CELL_WALL_COLOR)
+        else:
+            self._win.draw_line(right_wall, BGCOLOR)
+            
+        bottom_wall = Line(Point(self._x1, self._y2), Point(self._x2, self._y2))
         if self.has_bottom_wall:
-            bottom_wall = Line(Point(self._x1, self._y2), Point(self._x2, self._y2))
-            self._win.draw_line(bottom_wall)
+            self._win.draw_line(bottom_wall,CELL_WALL_COLOR)
+        else:
+            self._win.draw_line(bottom_wall, BGCOLOR)
+            
+        left_wall = Line(Point(self._x1, self._y1), Point(self._x1, self._y2))
         if self.has_left_wall:
-            left_wall = Line(Point(self._x1, self._y1), Point(self._x1, self._y2))
-            self._win.draw_line(left_wall)
+            self._win.draw_line(left_wall,CELL_WALL_COLOR)
+        else:
+            self._win.draw_line(left_wall, BGCOLOR)
+        
+        if message is not None:
+            print(f"Message: {message} | Top: {self.has_top_wall}, Right: {self.has_right_wall}, Bottom: {self.has_bottom_wall}, Left: {self.has_left_wall}")
         
     def center(self):
         x= (self._x1+self._x2)//2

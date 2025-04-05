@@ -1,5 +1,9 @@
 from tkinter import Tk, BOTH, Canvas
 
+#constants
+BGCOLOR = "#e6dcc1"
+
+
 class Point:
     def __init__(self, x=0, y=0):
         self.x = x
@@ -18,7 +22,7 @@ class Line:
 class Window:
     def __init__(self, width=420, height=420):
         conf={
-            'bg': "white",
+            'bg': BGCOLOR,
             'height': f"{height}",
             'width': f"{width}",
             }
